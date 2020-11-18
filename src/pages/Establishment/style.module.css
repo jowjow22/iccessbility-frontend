@@ -1,0 +1,74 @@
+#pageMap {
+  width: 100vw;
+  height: 100vh;
+
+  position: relative;
+  display: flex;
+}
+
+#pageMap aside {
+  width: 400px;
+  background: linear-gradient(
+    329.54deg,
+    var(--color-primary-darker) 0%,
+    var(--color-primary) 100%
+  );
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--color-text-in-primary);
+}
+
+#pageMap aside h2 {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 42px;
+  margin-top: 64px;
+}
+#pageMap aside p {
+  line-height: 28px;
+  margin-top: 24px;
+}
+#pageMap aside footer {
+  display: flex;
+  flex-direction: column;
+
+  line-height: 24px;
+}
+#pageMap aside footer strong {
+  font-weight: 800;
+}
+#pageMap aside img {
+  max-width: 40%;
+}
+
+#pageMap .createEstablishment {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+
+  width: 64px;
+  height: 64px;
+  background: var(--color-primary);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.5s;
+  z-index: 10;
+}
+
+#pageMap .createEstablishment:hover {
+  background: var(--color-primary-dark);
+}
+#pageMap aside header button {
+  background: none;
+  border: none;
+  outline: none;
+  height: 80px;
+  width: 80px;
+  transition: opacity 0.2s;
+  float: left;
+  margin-right: 20px;
+}

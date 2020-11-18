@@ -1,0 +1,52 @@
+#pagePostList {
+  width: 100vw;
+  height: 100vh;
+}
+
+#pagePostList .page-header .header-content {
+  margin-bottom: 6.4rem;
+}
+#pagePostList main label {
+  color: var(--color-text-complement);
+}
+
+.sideBar {
+  width: 20%;
+}
+
+#pagePostList main {
+  width: 100%;
+  max-width: 74rem;
+  border-radius: 0.8rem;
+  margin: -0.8rem auto 3.2rem;
+  padding-top: 0rem;
+}
+@media (min-width: 700px) {
+  #pagePostList {
+    max-width: 100vw;
+  }
+  #pagePostList .mainBody {
+    margin-top: 10rem;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: "follow post other";
+  }
+  #pagePostList main {
+    height: 100vh;
+    grid-area: post;
+    margin: 0rem auto 3.2rem;
+  }
+  .sideBar {
+    position: fixed;
+    max-height: 40rem;
+    margin: 0 auto;
+    margin-left: 4.5rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    grid-area: follow;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

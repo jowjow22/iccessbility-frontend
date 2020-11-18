@@ -1,0 +1,116 @@
+.followItem {
+  background: var(--color-box-base);
+  border: 1px solid var(--color-line-in-white);
+  border-radius: 0.8rem;
+  margin-top: 2.4rem;
+  overflow: hidden;
+}
+
+.followItem header {
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.followItem header img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.followItem header div {
+  margin-left: 2.4rem;
+}
+
+.followItem header div strong {
+  font: 700 2rem Archivo;
+  display: block;
+  color: var(--color-text-title);
+}
+
+.followItem header div span {
+  font-size: 1.6rem;
+  display: block;
+  margin-top: 0.4rem;
+}
+
+.followItem > p {
+  padding: 0 2rem;
+  font-size: 1.6rem;
+  line-height: 2.8rem;
+  text-align: justify;
+}
+
+.followItem .followImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+
+.followItem .followImage > img {
+  width: 700px;
+  max-width: 700px;
+  border-radius: 0.8rem;
+}
+
+.followItem footer {
+  padding: 3.2rem 2rem;
+  background: var(--color-box-footer);
+  border-top: 1px solid var(--color-line-in-white);
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.followItem footer p strong {
+  color: var(--color-primary);
+  font-size: 1.6rem;
+  display: block;
+}
+
+.followItem footer button {
+  width: 20rem;
+  height: 5.6rem;
+  background: var(--color-secundary);
+  color: var(--color-button-text);
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font: 700 1.4rem Archivo;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: 0.2s;
+}
+
+.followItem footer button:hover {
+  background: var(--color-secundary-dark);
+}
+
+.followItem footer button img {
+  max-width: 2.4rem;
+}
+
+@media (min-width: 700px) {
+  .followItem header,
+  .followItem footer {
+    padding: 3.2rem;
+  }
+
+  .followItem > p {
+    padding: 0 3.2rem;
+  }
+
+  .followItem footer p strong {
+    display: initial;
+    margin-left: 1.6rem;
+  }
+
+  .followItem footer button {
+    width: 24.5rem;
+    font-size: 1.6rem;
+    justify-content: center;
+  }
+}
