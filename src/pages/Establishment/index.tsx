@@ -1,62 +1,63 @@
-import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import styles from './style.module.css';
+import React from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import { FiClock, FiInfo } from "react-icons/fi";
+import { Marker, TileLayer } from "react-leaflet";
 
+import PrimaryButton from "../../components/PrimaryButton";
 import Map from '../../components/Map';
-
-import { Marker, Popup } from 'react-leaflet';
-
-import {FiPlus, FiArrowRight} from 'react-icons/fi';
-
-import iccessLogo from '../../assets/images/NewLogo.png';
-
-import backIcon from '../../assets/images/icons/back.svg';
-
-import './popUp.css';
-
-import 'leaflet/dist/leaflet.css';
-
 import mapIcon from '../../components/Map/iccessMapIcon';
 
-function EstablishmentMap(){
-  const { goBack } = useHistory();
+import './styles.css';
+
+export default function Orphanage() {
   return (
-    <div id={styles.pageMap}>
-      <aside>
-        <header>
+    <div id="page-orphanage">
+      <main>
+        <div className="orphanage-details">
+          <img src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg" alt="Lar das meninas" />
+          
+          <div className="orphanage-details-content">
+            <h1>Lar das meninas</h1>
+            <p>Presta assistência a crianças de 06 a 15 anos que se encontre em situação de risco e/ou vulnerabilidade social.</p>
 
-          <img src={iccessLogo} alt="Iccessbility"/>
-          <button onClick={goBack}>
-          <img src={backIcon} alt="Voltar" />
-        </button>
+            <div className="map-container">
+              <Map 
+                interactive={false}
+                style={{ width: '100%', height: 280 }}
+              >
+                <Marker interactive={false} icon={mapIcon} position={[-24.2778112, -46.9630976]} />
+              </Map>
 
-          <h2>Procure Estabelecimentos</h2>
-          <p>Esse mapa lista estabelecimentos que possuam atendimento acessivo</p>
-        </header>
-        <footer>
-          <strong>Iccessbility</strong>
-          <span>2020</span>
-        </footer>
-      </aside>
-      <Map style={{ width: '100%', height: '100%', zIndex: 5 }}>
+              <footer>
+                <a href="">Ver rotas no Google Maps</a>
+              </footer>
+            </div>
 
-        <Marker
-          icon={mapIcon}
-          position={[-24.2778112, -46.9630976]}
-        >
-          <Popup closeButton={false} minWidth={240} maxWidth={240} className="map-popup">
-            SubWay de Peruíbe
-              <Link to="">
-                <FiArrowRight size={20} color="#FFF" />
-              </Link>
-          </Popup>
-        </Marker>
-      </Map>
-      <Link to="/" className={styles.createEstablishment}>
-        <FiPlus size={32} color="#FFF" />
-      </Link>
+            <hr />
+
+            <h2>Instruções para visita</h2>
+            <p>Venha como se sentir mais à vontade e traga muito amor para dar.</p>
+
+            <div className="open-details">
+              <div className="hour">
+                <FiClock size={32} color="#15B6D6" />
+                Segunda à Sexta <br />
+                8h às 18h
+              </div>
+              <div className="open-on-weekends">
+                <FiInfo size={32} color="#39CC83" />
+                Atendemos <br />
+                fim de semana
+              </div>
+            </div>
+
+            <PrimaryButton type="button">
+              <FaWhatsapp size={20} color="#FFF" />
+              Entrar em contato
+            </PrimaryButton>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
-
-export default EstablishmentMap;

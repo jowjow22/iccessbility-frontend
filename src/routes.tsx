@@ -4,6 +4,7 @@ import Landing from './pages/Landing/index';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import Establishments from './pages/Establishments';
 import Establishment from './pages/Establishment';
 import CreateEstablishment from './pages/CreateEstablishments';
 
@@ -15,7 +16,8 @@ export default function Routes() {
         <Route path="/signIn" component={SignIn} />
         <Route path="/signUp" component={SignUp} />
         <Route path="/home" component={Home} />
-        <Route path="/establishment" exact component={Establishment} />
+        <Route path="/establishments" exact component={Establishments} />
+        <Route path="/establishment/:id" exact component={Establishment} />
         <Route path="/establishment/create" component={CreateEstablishment} />
       </Switch>
     </BrowserRouter>

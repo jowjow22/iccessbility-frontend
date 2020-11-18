@@ -18,23 +18,24 @@ export default function SignIn() {
   const [phone, setPhone] = useState('');
   const [pass, setPass] = useState('');
   const [profilePic, setProfilePic] = useState();
-  const [coverPic, setCoverPic] = useState()
+  const [coverPic, setCoverPic] = useState();
   const [bio, setBio] = useState('');
-  let option: any = [];
-  const [options, setOptions] = useState(option);
+  let stateOption: any = [];
+  let cityOption: any = [];
+  const [stateOptions, setStateOptions] = useState();
 
   useEffect(() => {
     ibge.get('estados').then(res =>{
       const estados: Array<any> = res.data;
       
       estados.map((estado) => {
-        options.push({ value: estado.sigla, label: estado.nome });
-        return options;
+        stateOption.push({ value: estado.id, label: estado.nome });
+        return stateOption;
       });
 
-      setOptions(options);
+      setStateOptions(stateOption);
       
-      console.log(options);
+      console.log(stateOptions);
     })
   }, []);
 
@@ -91,25 +92,6 @@ export default function SignIn() {
           <Input name="adress" label="Endereço"/>
 
           <Select 
-          name="state" 
-          label="Estado"
-          options={options}
-          value={state}
-          onChange={(e)=>{ setState(e.target.value)}}
-           />
-
-          <Select 
-          name="city" 
-          label="Cidade"
-          options={[
-            { value:'Peruíbe', label: 'Peruíbe' },
-            { value:'Itanhaém', label: 'Itanhaém' }
-          ]}
-          value={city}
-          onChange={(e)=>{ setCity(e.target.value)}}
-           />
-
-          <Select 
           name="userType" 
           label="Tipo de Pessoa"
           options={[
@@ -119,6 +101,31 @@ export default function SignIn() {
           value={userType}
           onChange={(e)=>{ setUserType(e.target.value) }}
           />
+          {
+            stateOptions && (
+              <Select 
+              name="state" 
+              label="Estado"
+              options={stateOptions!}
+              value={state}
+              onChange={(e)=>{
+    
+                setState(e.target.value)
+    
+                
+              }}
+               />
+            )
+          }
+
+
+          {/* <Select 
+          name="city" 
+          label="Cidade"
+          options={cityOptions}
+          value={city}
+          onChange={(e)=>{ setCity(e.target.value)}}
+           /> */}
 
           <Input 
           name="cpf-cnpj"
