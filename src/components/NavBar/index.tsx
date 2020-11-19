@@ -16,7 +16,7 @@ const NavBar: React.FC<NavBarProps> = (props) => {
         <img src={logoImg} alt="Iccessbility" />
         </Link>
 
-      <div className="actionButtons">
+      <div className={styles.actionButtons}>
         {
           props.children
         }

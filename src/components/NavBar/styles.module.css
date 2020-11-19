@@ -18,6 +18,21 @@
 .NavBar .topBarContainer img {
   height: 2.6rem;
 }
+.NavBar .actionButtons > img {
+  height: 4.6rem;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.NavBar .actionButtons > img:hover {
+  transform: scale(1.1);
+}
+.NavBar .actionButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .NavBar .topBarContainer img {
   margin-right: 8rem;
 }

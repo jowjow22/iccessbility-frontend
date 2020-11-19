@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './style.module.css';
 import interestIcon from '../../assets/images/icons/interest.svg';
+import { FaHeart } from 'react-icons/fa';
 
 export default function PostItem() {
   return (
@@ -28,6 +29,9 @@ export default function PostItem() {
         <button type="button">
           <img src={interestIcon} alt="Interessado" />
           Tenho Interesse!
+        </button>
+        <button type="button">
+          <FaHeart size={24} color="#FFF" />
         </button>
       </footer>
     </article>

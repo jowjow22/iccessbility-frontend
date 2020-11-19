@@ -18,8 +18,7 @@ export default function SignIn() {
   const [city, setCity] = useState('');
   const [establishmentPic, setEPic] = useState();
   const [eType, setEType] = useState('');
-  let option: any = [];
-  const [options, setOptions] = useState(option);
+  const [options, setOptions] = useState<Array<any>>([]);
 
   useEffect(() => {
     ibge.get('estados').then(res =>{

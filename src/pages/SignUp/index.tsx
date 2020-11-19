@@ -8,11 +8,16 @@ import Textarea from '../../components/Textarea';
 import Select from '../../components/Select';
 import TypeImage from '../../components/TypeImage';
 import ibge from '../../services/ibge';
+import api from '../../services/api';
+import { useHistory } from 'react-router-dom';
 
 export default function SignIn() {
   const [name, setName] = useState('');
   const [state, setState] = useState('');
+  const [sgState, setSgState] = useState('');
   const [city, setCity] = useState('');
+  const [adress, setAdress] = useState('');
+  const [birth, setBirth] = useState('');
   const [userType, setUserType] = useState('');
   const [cpfCnpj, setCpfCnpj] = useState('');
   const [phone, setPhone] = useState('');
@@ -23,13 +28,15 @@ export default function SignIn() {
   let stateOption: any = [];
   let cityOption: any = [];
   const [stateOptions, setStateOptions] = useState();
+  const [cityOptions, setCityOptions] = useState();
+  const history = useHistory();
 
   useEffect(() => {
     ibge.get('estados').then(res =>{
       const estados: Array<any> = res.data;
       
       estados.map((estado) => {
-        stateOption.push({ value: estado.id, label: estado.nome });
+        stateOption.push({ value: estado.id, label: estado.sigla });
         return stateOption;
       });
 
@@ -38,6 +45,19 @@ export default function SignIn() {
       console.log(stateOptions);
     })
   }, []);
+
+  async function searchCity(id: any){
+    await ibge.get(`estados/${id}/municipios`).then(res =>{
+      const cidades: Array<any> = res.data;
+      
+      cidades.map((cidade) => {
+        cityOption.push({ value: cidade.nome, label: cidade.nome });
+        return cityOption;
+      });
+      
+      setCityOptions(cityOption);
+    })
+  }
 
   const convertBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -55,21 +75,28 @@ export default function SignIn() {
   };
 
 
-  function handleCreateClass(e: FormEvent){
+  function handleCreateUser(e: FormEvent){
     e.preventDefault();
+    api.post('user', {
+      nome: name,
+      nascimento: birth,
+      foto: profilePic,
+      endereco: adress,
+      cidade: city,
+      estado: sgState,
+      tipoPessoa: userType,
+      cpf_cnpj: cpfCnpj,
+      bio,
+      capa: coverPic,
+      senha: pass,
+      telefone: phone
+    }).then(()=>{
+      alert('cadastro realizado com sucesso');
+      history.push('/');
 
-    console.log({
-      name,
-      state,
-      city,
-      userType,
-      cpfCnpj,
-      phone,
-      pass,
-      profilePic,
-      coverPic,
-      bio
-    });
+    }).catch(()=>{
+      alert('erro no cadastro')
+    })
   }
 
 
@@ -80,16 +107,16 @@ export default function SignIn() {
         description="Preencha este formulário para poder acessar a plataforma"
       />
       <main>
-        <form onSubmit={handleCreateClass} >
+        <form onSubmit={handleCreateUser} >
         <fieldset>
           <legend>Seus Dados</legend>
           <Input 
           name="name" 
           label="Nome" 
           value={name} 
-          onChange={(e)=>{ setName(e.target.value) }} />
-          <Input type="date" name="birth" label="Nascimento"/>
-          <Input name="adress" label="Endereço"/>
+          onChange={(e)=>{ setName(e.target.value) }} required />
+          <Input type="date" name="birth" label="Nascimento" onChange={(e)=>{setBirth(e.target.value)}} required/>
+          <Input name="adress" label="Endereço" onChange={(e)=>{setAdress(e.target.value)}} required/>
 
           <Select 
           name="userType" 
@@ -100,6 +127,7 @@ export default function SignIn() {
           ]}
           value={userType}
           onChange={(e)=>{ setUserType(e.target.value) }}
+          required
           />
           {
             stateOptions && (
@@ -109,35 +137,44 @@ export default function SignIn() {
               options={stateOptions!}
               value={state}
               onChange={(e)=>{
-    
+                const estado = e.target.options[e.target.selectedIndex].text
                 setState(e.target.value)
+                setSgState(estado)
+                searchCity(e.target.value)
     
                 
               }}
+              required
                />
             )
           }
 
-
-          {/* <Select 
+          {
+          cityOptions && (
+          <Select 
           name="city" 
           label="Cidade"
-          options={cityOptions}
+          options={cityOptions!}
           value={city}
           onChange={(e)=>{ setCity(e.target.value)}}
-           /> */}
+          required
+           /> 
+            )
+          }
 
           <Input 
           name="cpf-cnpj"
           label="CPF/CNPJ"
           value={cpfCnpj}
           onChange={(e)=>{ setCpfCnpj(e.target.value) }} 
+          required
           />
           <Input 
           name="phone" 
           label="Telefone"
           value={phone}
           onChange={(e)=>{ setPhone(e.target.value) }}
+          required
           />
           <Input 
           type="password" 
@@ -145,6 +182,7 @@ export default function SignIn() {
           label="Senha"
           value={pass}
           onChange={(e)=>{ setPass(e.target.value) }}
+          required
           />
         </fieldset>
         
@@ -178,6 +216,7 @@ export default function SignIn() {
           label="Biografia"
           value={bio}
           onChange={(e)=>{ setBio(e.target.value) }}
+          required
           />
         </fieldset>
         <footer>
