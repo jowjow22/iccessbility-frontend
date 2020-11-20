@@ -11,6 +11,9 @@ import ibge from '../../services/ibge';
 import Map from '../../components/Map';
 import mapIcon from '../../components/Map/iccessMapIcon';
 import { Marker } from 'react-leaflet';
+import {LeafletMouseEvent} from 'leaflet';
+import api from '../../services/api';
+import { useAuth } from '../../Context/AuthContext';
 
 export default function SignIn() {
   const [name, setName] = useState('');
@@ -18,22 +21,52 @@ export default function SignIn() {
   const [city, setCity] = useState('');
   const [establishmentPic, setEPic] = useState();
   const [eType, setEType] = useState('');
-  const [options, setOptions] = useState<Array<any>>([]);
+  let stateOption: any = [];
+  let cityOption: any = [];
+  let eTypeOption: any =[];
+  const [stateOptions, setStateOptions] = useState<any>();
+  const [cityOptions, setCityOptions] = useState<any>();
+  const [sgState, setSgState] = useState('');
+  const [position, setPosition] = useState<any>({ latitude: 0, longitude: 0 });
+  const [eTypes, setETypes] = useState<any>();
+  const { user } = useAuth();
+
+  useEffect(()=>{
+    (async ()=>{
+      const etypes: any = (await api.get('eType')).data;
+      etypes.map((etype: any)=>{
+        eTypeOption.push({ value: etype.cd_tp_estabelecimento, label: etype.nm_tipo });
+        return eTypeOption;
+      });
+      setETypes(eTypeOption);
+    })()
+  }, []);
 
   useEffect(() => {
     ibge.get('estados').then(res =>{
       const estados: Array<any> = res.data;
       
       estados.map((estado) => {
-        options.push({ value: estado.sigla, label: estado.nome });
-        return options;
+        stateOption.push({ value: estado.id, label: estado.sigla });
+        return stateOption;
       });
 
-      setOptions(options);
-      
-      console.log(options);
+      setStateOptions(stateOption);
     })
   }, []);
+
+  async function searchCity(id: any){
+    await ibge.get(`estados/${id}/municipios`).then(res =>{
+      const cidades: Array<any> = res.data;
+      
+      cidades.map((cidade) => {
+        cityOption.push({ value: cidade.nome, label: cidade.nome });
+        return cityOption;
+      });
+      
+      setCityOptions(cityOption);
+    })
+  }
 
   const convertBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -50,17 +83,33 @@ export default function SignIn() {
     });
   };
 
+  function handleMapClick(event: LeafletMouseEvent){
+    const { lat, lng } = event.latlng;
+    setPosition({
+      latitude: lat,
+      longitude: lng
+    });
+  }
+
 
   function handleCreateClass(e: FormEvent){
     e.preventDefault();
 
-    console.log({
+    api.post('establishment',{
       name,
-      state,
+      sgState,
       city,
       establishmentPic,
-      eType
-    });
+      latitude: position.latitude,
+      longitude: position.longitude,
+      totalRating: 0.00,
+      idUser: user?.id,
+      idEtype: eType
+    }).then(()=>{
+      alert('cadastrado com sucesso');
+    }).catch(()=>{
+      alert('erro no cadastro');
+    })
   }
 
 
@@ -79,36 +128,38 @@ export default function SignIn() {
           label="Nome" 
           value={name} 
           onChange={(e)=>{ setName(e.target.value) }} />
+          {
+            stateOptions && (
+              <Select 
+              name="state" 
+              label="Estado"
+              options={stateOptions!}
+              value={state}
+              onChange={(e)=>{
+                const estado = e.target.options[e.target.selectedIndex].text
+                setState(e.target.value)
+                setSgState(estado)
+                searchCity(e.target.value)
+    
+                
+              }}
+              required
+               />
+            )
+          }
 
-          <Select 
-          name="state" 
-          label="Estado"
-          options={options}
-          value={state}
-          onChange={(e)=>{ setState(e.target.value)}}
-           />
-
+          {
+          cityOptions && (
           <Select 
           name="city" 
           label="Cidade"
-          options={[
-            { value:'Peruíbe', label: 'Peruíbe' },
-            { value:'Itanhaém', label: 'Itanhaém' }
-          ]}
+          options={cityOptions!}
           value={city}
           onChange={(e)=>{ setCity(e.target.value)}}
-           />
-
-          <Select 
-          name="eType" 
-          label="Tipo de Estabelecimento"
-          options={[
-            { value:'Peruíbe', label: 'Peruíbe' },
-            { value:'Itanhaém', label: 'Itanhaém' }
-          ]}
-          value={eType}
-          onChange={(e)=>{ setEType(e.target.value)}}
-           />
+          required
+           /> 
+            )
+          }
 
         </fieldset>
         
@@ -126,9 +177,21 @@ export default function SignIn() {
             setEPic(base64);
           }}
           />
-          <Map style={{ width: '100%', height: 280, borderRadius: 10 }}>
-              <Marker interactive={false} icon={mapIcon} position={[-24.2778112, -46.9630976]} />
+          <Map style={{ width: '100%', height: 280, borderRadius: 10 }} onclick={handleMapClick}>
+            {
+              position.latitude != 0 && <Marker interactive={false} icon={mapIcon} position={[ position.latitude, position.longitude]} />
+            }
           </Map>
+            {
+              eTypes &&
+              <Select 
+              name="eType" 
+              label="Tipo de Estabelecimento"
+              options={eTypes}
+              value={eType}
+              onChange={(e)=>{ setEType(e.target.value)}}
+               />
+            }
         </fieldset>
         <footer>
           <p>

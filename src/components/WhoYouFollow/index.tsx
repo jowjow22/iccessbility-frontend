@@ -3,14 +3,14 @@ import { useAuth } from '../../Context/AuthContext';
 import api from '../../services/api';
 import styles from  './style.module.css';
 
-interface WhoToFollowProps {
+interface WhoYouFollowProps {
   name: string;
   personType: string;
   profilePic: string;
   userId: number;
 }
 
-const WhoToFollow: React.FC<WhoToFollowProps> = (props) => {
+const WhoYouFollow: React.FC<WhoYouFollowProps> = (props) => {
   const { user } = useAuth();
   return (
     <article className={styles.followItem}>
@@ -18,18 +18,18 @@ const WhoToFollow: React.FC<WhoToFollowProps> = (props) => {
         <img src={props.profilePic} alt={props.name} />
         <div>
           <strong>{props.name}</strong>
-          <span>Pessoa {props.personType}</span>
+          <span>{props.personType}</span>
         </div>
       </header>
       <footer>
         <button type="button" onClick={async ()=>{
-          await api.post(`follow/${user?.id}/${props.userId}`);
+          await api.delete(`unfollow/${user?.id}/${props.userId}`);
           window.location.reload();
         }}>
-          Seguir
+          Deixar de seguir
         </button>
       </footer>
     </article>
   );
 }
-export default WhoToFollow;
+export default WhoYouFollow;

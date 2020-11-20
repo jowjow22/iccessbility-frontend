@@ -1,0 +1,9 @@
+#pageUserProfile {
+  width: 100vw;
+  height: 100vh;
+}
+@media (min-width: 700px) {
+  #pageUserProfile {
+    max-width: 100vw;
+  }
+}

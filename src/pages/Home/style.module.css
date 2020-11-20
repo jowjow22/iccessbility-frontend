@@ -10,7 +10,16 @@
   color: var(--color-text-complement);
 }
 
-.sideBar {
+.sideBar,
+.sideBarRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-box-base);
+  min-height: 50rem;
+  border-radius: 0.8rem;
+  min-width: 8rem;
   width: 20%;
 }
 
@@ -39,12 +48,23 @@
   }
   .sideBar {
     position: fixed;
-    max-height: 40rem;
-    margin: 0 auto;
+    height: 56.5rem;
+    margin: 2.5rem auto;
     margin-left: 4.5rem;
     overflow-y: scroll;
     overflow-x: hidden;
     grid-area: follow;
+  }
+
+  .sideBarRight {
+    position: fixed;
+    height: 56.5rem;
+    margin: 2.5rem auto;
+    margin-left: 4.5rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    right: 4.5rem;
+    grid-area: other;
   }
   ::-webkit-scrollbar {
     display: none;

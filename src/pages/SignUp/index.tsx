@@ -27,8 +27,8 @@ export default function SignIn() {
   const [bio, setBio] = useState('');
   let stateOption: any = [];
   let cityOption: any = [];
-  const [stateOptions, setStateOptions] = useState();
-  const [cityOptions, setCityOptions] = useState();
+  const [stateOptions, setStateOptions] = useState<any>();
+  const [cityOptions, setCityOptions] = useState<any>();
   const history = useHistory();
 
   useEffect(() => {

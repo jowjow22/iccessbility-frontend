@@ -17,9 +17,12 @@ import './popUp.css';
 import 'leaflet/dist/leaflet.css';
 
 import mapIcon from '../../components/Map/iccessMapIcon';
+import { useAuth } from '../../Context/AuthContext';
 
 function EstablishmentMap(){
   const { goBack } = useHistory();
+  const { user, isJuridic } = useAuth();
+  
   return (
     <div id={styles.pageMap}>
       <aside>
@@ -51,9 +54,13 @@ function EstablishmentMap(){
           </Popup>
         </Marker>
       </Map>
-      <Link to="/" className={styles.createEstablishment}>
-        <FiPlus size={32} color="#FFF" />
-      </Link>
+      {
+        isJuridic ? (
+          <Link to="/create" className={styles.createEstablishment}>
+          <FiPlus size={32} color="#FFF" />
+        </Link>
+        ) : null
+      }
     </div>
   );
 }

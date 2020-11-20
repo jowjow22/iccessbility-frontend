@@ -8,11 +8,10 @@ import AppRoutes from './app.routes';
 
 
 export default function Routes() {
-  const { signed, loading } = useAuth();
+  const { signed, loading, user } = useAuth();
   
   if(loading){
     return <h1>Loading...</h1>;
   }
-
-  return signed ? <AppRoutes /> : <AuthRoutes />;
+  return signed ? <AppRoutes userType={user?.personType} /> : <AuthRoutes />;
 }

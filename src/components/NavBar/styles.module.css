@@ -69,6 +69,8 @@
 
 @media (min-width: 700px) {
   .NavBar {
+    position: fixed;
+    width: 100%;
     height: 70px;
   }
 

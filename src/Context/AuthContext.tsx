@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState, useContext } from 'react';
 import api from '../services/api';
 
 interface User {
+  id: number;
   name: string;
   nasc: Date;
   profilePic: string;
