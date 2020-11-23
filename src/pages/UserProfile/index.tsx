@@ -4,7 +4,7 @@ import PostItem from '../../components/PostItem';
 import { useAuth } from '../../Context/AuthContext';
 import api from '../../services/api';
 
-import { FaArrowLeft, FaTrashAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import styles from './style.module.css';
 
 interface ProfilePageParams{
@@ -52,7 +52,16 @@ if(!profile){
               <FaArrowLeft color="#cececece" size={25} />
             </Link>
             {
-              eval(params.userID) === user?.id ? (<Link to={`/delUser`} className={styles.deleteProfile} > <FaTrashAlt color="#fff" size={25} /> </Link>) : null
+              eval(params.userID) === user?.id ? (
+              <>
+              <Link to='/user/update'>
+                <FaEdit color="#fff" size={35} />
+              </Link>  
+              <Link to={`/delUser`} className={styles.deleteProfile} > 
+                <FaTrashAlt color="#fff" size={25} /> 
+              </Link> 
+              </>
+              ) : null
             }
           </div>
         <div className={styles.coverPic}>

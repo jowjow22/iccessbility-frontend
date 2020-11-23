@@ -10,18 +10,17 @@ import TypeImage from '../../components/TypeImage';
 import ibge from '../../services/ibge';
 import api from '../../services/api';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../Context/AuthContext';
 
-export default function updateUser() {
+export default function UpdateUser() {
   const [name, setName] = useState('');
   const [state, setState] = useState('');
   const [sgState, setSgState] = useState('');
   const [city, setCity] = useState('');
   const [adress, setAdress] = useState('');
   const [birth, setBirth] = useState('');
-  const [userType, setUserType] = useState('');
   const [cpfCnpj, setCpfCnpj] = useState('');
-  const [phone, setPhone] = useState('');
-  const [pass, setPass] = useState('');
+  const [phone, setPhone] = useState('')
   const [profilePic, setProfilePic] = useState();
   const [coverPic, setCoverPic] = useState();
   const [bio, setBio] = useState('');
@@ -30,6 +29,7 @@ export default function updateUser() {
   const [stateOptions, setStateOptions] = useState<any>();
   const [cityOptions, setCityOptions] = useState<any>();
   const history = useHistory();
+  const { user } = useAuth();
 
   useEffect(() => {
     ibge.get('estados').then(res =>{
@@ -45,6 +45,21 @@ export default function updateUser() {
       console.log(stateOptions);
     })
   }, []);
+
+  useEffect(()=>{
+    (async ()=>{
+      const userData = (await api.get(`user/${user?.id}`)).data;
+
+      setName(userData.nm_usuario);
+      setBirth(userData.dt_nascimento);
+      setAdress(userData.nm_endereco);
+      setCpfCnpj(userData.nm_cpf_cnpj);
+      setPhone(userData.nr_telefone);
+      setBio(userData.ds_bio);
+      setCity(userData.nm_cidade);
+      setSgState(userData.sg_estado);
+    })()
+  }, [])
 
   async function searchCity(id: any){
     await ibge.get(`estados/${id}/municipios`).then(res =>{
@@ -77,22 +92,20 @@ export default function updateUser() {
 
   function handleCreateUser(e: FormEvent){
     e.preventDefault();
-    api.post('user', {
+    api.patch(`user/${user?.id}`, {
       nome: name,
       nascimento: birth,
       foto: profilePic,
       endereco: adress,
       cidade: city,
       estado: sgState,
-      tipoPessoa: userType,
       cpf_cnpj: cpfCnpj,
       bio,
       capa: coverPic,
-      senha: pass,
       telefone: phone
     }).then(()=>{
-      alert('cadastro realizado com sucesso');
-      history.push('/');
+      alert('Perfil atualizado com sucesso');
+      history.push('/home');
 
     }).catch((err)=>{
       console.log(err);
@@ -115,20 +128,8 @@ export default function updateUser() {
           label="Nome" 
           value={name} 
           onChange={(e)=>{ setName(e.target.value) }} required />
-          <Input type="date" name="birth" label="Nascimento" onChange={(e)=>{setBirth(e.target.value)}} required/>
-          <Input name="adress" label="Endereço" onChange={(e)=>{setAdress(e.target.value)}} required/>
-
-          <Select 
-          name="userType" 
-          label="Tipo de Pessoa"
-          options={[
-            { value:'Física', label: 'Física' },
-            { value:'Jurídica', label: 'Jurídica' }
-          ]}
-          value={userType}
-          onChange={(e)=>{ setUserType(e.target.value) }}
-          required
-          />
+          <Input type="date" name="birth" label="Nascimento" value={birth} onChange={(e)=>{setBirth(e.target.value)}} required/>
+          <Input name="adress" label="Endereço" value={adress} onChange={(e)=>{setAdress(e.target.value)}} required/>
           {
             stateOptions && (
               <Select 
@@ -144,7 +145,6 @@ export default function updateUser() {
     
                 
               }}
-              required
                />
             )
           }
@@ -156,8 +156,7 @@ export default function updateUser() {
           label="Cidade"
           options={cityOptions!}
           value={city}
-          onChange={(e)=>{ setCity(e.target.value)}}
-          required
+          onChange={(e)=>{ setCity(e.target.value)}}  
            /> 
             )
           }
@@ -176,41 +175,11 @@ export default function updateUser() {
           onChange={(e)=>{ setPhone(e.target.value) }}
           required
           />
-          <Input 
-          type="password" 
-          name="pass" 
-          label="Senha"
-          value={pass}
-          onChange={(e)=>{ setPass(e.target.value) }}
-          required
-          />
         </fieldset>
         
 
         <fieldset>
           <legend>Dados de Perfil</legend>
-          <TypeImage 
-          type="file" 
-          name="profile-image" 
-          label="Foto de Perfil"
-          value=""
-          onChange={async (e)=>{ 
-            const file = e.target.files![0];
-            const base64: any = await convertBase64(file);
-            setProfilePic(base64);
-          }}
-          />
-          <TypeImage 
-          type="file" 
-          name="cover-image" 
-          label="Foto de Capa"
-          value=""
-          onChange={async (e)=>{ 
-            const file = e.target.files![0];
-            const base64: any = await convertBase64(file);
-            setCoverPic(base64);
-           }}
-          />
           <Textarea 
           name="bio" 
           label="Biografia"
