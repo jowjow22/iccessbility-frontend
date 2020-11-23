@@ -120,7 +120,7 @@ export default function SignIn() {
       idEtype: eType
     }).then(()=>{
       alert('cadastrado com sucesso');
-      history.push(`/create/establishment/${user?.id}`);
+      history.push(`/establishment/create/accessbility`);
     }).catch(()=>{
       alert('erro ao cadastrar')
     })

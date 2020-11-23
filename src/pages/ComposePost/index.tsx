@@ -77,8 +77,8 @@ export default function SignIn() {
   return (
     <div id={styles.pagePostList} className="container">
       <PageHeader
-        title="Bem vindo(a) cadastre-se para entrar na plataforma!"
-        description="Preencha este formulário para poder acessar a plataforma"
+        title="Preencha os dados do seu post"
+        description="Lembrando que o post pode ser um produto ou serviço voltado a PCD ou a área de saúde."
       />
       <main>
         <form onSubmit={handleCreateUser} >

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FaWhatsapp, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaWhatsapp, FaTrashAlt, FaEdit, FaStar } from "react-icons/fa";
 import { Marker } from "react-leaflet";
 import { Link, useParams } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { useState } from "react";
 import api from "../../services/api";
 import Sidebar from "../../components/Sidebar";
 import { useAuth } from "../../Context/AuthContext";
+import RatingStars from "../../components/RatingStars";
 
 interface EstablishmentParams {
   id: string;
@@ -93,7 +94,7 @@ export default function Orphanage() {
           <div className={styles.establishmentDetailsContent}>
           <h1>{establishment.nm_estabelecimento}</h1>
           <p>{eType?.nm_tipo}</p>
-
+          <h2><FaStar></FaStar> {establishment.qt_media_stars}</h2>
             <div className={styles.mapContainer}>
               <Map
                 center={[establishment.latitude, establishment.longitude]}
@@ -112,8 +113,10 @@ export default function Orphanage() {
 
             <h2>Esse estabelecimento fornece acessbilidade à: </h2>
             <p>{establishment.acessibilidade}</p>
-
-
+            <br/>
+            <h4>Seu Julgamento sobre esse estabelecimento</h4>
+            <br/>
+            <RatingStars userID={user?.id} eID={establishment.cd_estabelecimento}></RatingStars>
             <PrimaryButton type="button" onClick={()=>{
              window.location.href = `https://wa.me/55${eOwner?.nr_telefone}`;
             }}>

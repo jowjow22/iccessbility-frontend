@@ -1,0 +1,8 @@
+#starsContaienr {
+  display: flex;
+  width: 100%;
+}
+.star {
+  margin: 0 8px;
+  cursor: pointer;
+}

@@ -11,7 +11,7 @@ import ibge from '../../services/ibge';
 import api from '../../services/api';
 import { useHistory } from 'react-router-dom';
 
-export default function SignUp() {
+export default function updateUser() {
   const [name, setName] = useState('');
   const [state, setState] = useState('');
   const [sgState, setSgState] = useState('');
