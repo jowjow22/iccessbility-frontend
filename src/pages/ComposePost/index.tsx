@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
 import { type } from 'os';
 
-export default function SignIn() {
+export default function ComposePost() {
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
   const [postPic, setPostPic] = useState();

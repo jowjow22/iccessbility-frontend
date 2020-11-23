@@ -1,22 +1,14 @@
 import React, { FormEvent, useState, useEffect } from 'react';
-import Input from '../../components/Input';
 import PageHeader from '../../components/PageHeader';
 import warningIcon from '../../assets/images/icons/warning.svg';
 
 import styles from './style.module.css';
 import Select from '../../components/Select';
-import TypeImage from '../../components/TypeImage';
-import ibge from '../../services/ibge';
-
-import Map from '../../components/Map';
-import mapIcon from '../../components/Map/iccessMapIcon';
-import { Marker } from 'react-leaflet';
-import {LeafletMouseEvent} from 'leaflet';
 import api from '../../services/api';
 import { useAuth } from '../../Context/AuthContext';
 import { useHistory } from 'react-router-dom';
 //
-export default function SignIn() {
+export default function CreateEstablishmentAccessibility() {
   const { user } = useAuth();
   const history = useHistory();
 

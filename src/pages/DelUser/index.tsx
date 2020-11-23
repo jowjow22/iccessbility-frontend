@@ -5,7 +5,7 @@ import api from '../../services/api';
 
 import styles from './style.module.css';
 
-export default function DelSomething(){
+export default function DelUser(){
     const history = useHistory();
     const { user, signOut } = useAuth()
   

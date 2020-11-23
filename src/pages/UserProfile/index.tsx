@@ -49,10 +49,10 @@ if(!profile){
         <div className={styles.headerContent}>
           <div className={styles.actionIcons}>
             <Link to="/home" >
-              <FaArrowLeft color="#cececece" size={25} />
+              <FaArrowLeft color="#808080" size={25} />
             </Link>
             {
-              eval(params.userID) === user?.id ? (
+              Number(params.userID) === user?.id ? (
               <>
               <Link to='/user/update'>
                 <FaEdit color="#fff" size={35} />
@@ -67,7 +67,7 @@ if(!profile){
         <div className={styles.coverPic}>
         <img 
         src={profile.img_capa}
-        alt="cover image"/>
+        alt="cover"/>
         </div>
         <div className={styles.userPic}>
           <img src={profile.img_foto} alt="user"/>

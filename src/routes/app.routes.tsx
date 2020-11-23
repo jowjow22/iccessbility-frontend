@@ -11,6 +11,7 @@ import UserProfile from '../pages/UserProfile';
 import DelSomething from '../pages/DelSomething';
 import DelUser from '../pages/DelUser';
 import UpdateUser from '../pages/UpdateUser';
+import UpdateEstablishment from '../pages/UpdateEstablishment';
 
 interface AppRoutesProps {
   userType: string | undefined;
@@ -29,6 +30,7 @@ const AppRoutes: React.FC<AppRoutesProps> = (props) => {
       <Route path="/delUser" exact component={DelUser} />
       <Route path="/establishment/create/accessbility" exact component={CreateEstablishmentAccessbility} />
       <Route path="/user/update" exact component={UpdateUser} />
+      <Route path="/establishment/update/:eID" exact component={UpdateEstablishment} />
       <Route path="/composePost" exact component={ComposePost} />
       <Route path="/profile/:userID" exact component={UserProfile} />
     </Switch>

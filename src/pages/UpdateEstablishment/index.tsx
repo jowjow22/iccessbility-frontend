@@ -5,7 +5,6 @@ import warningIcon from '../../assets/images/icons/warning.svg';
 
 import styles from './style.module.css';
 import Select from '../../components/Select';
-import TypeImage from '../../components/TypeImage';
 import ibge from '../../services/ibge';
 
 import Map from '../../components/Map';
@@ -14,13 +13,16 @@ import { Marker } from 'react-leaflet';
 import {LeafletMouseEvent} from 'leaflet';
 import api from '../../services/api';
 import { useAuth } from '../../Context/AuthContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+
+interface UpdateEstablishmentParams {
+  eID: string;
+}
 //
-export default function CreateEstablishment() {
+export default function UpdateEstablishment() {
   const [name, setName] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
-  const [image, setEPic] = useState();
   const [eType, setEType] = useState('');
   let stateOption: any = [];
   let cityOption: any = [];
@@ -32,8 +34,25 @@ export default function CreateEstablishment() {
   const [eTypes, setETypes] = useState<any>();
   const [currentLatitude, setCurrentLatitude] = useState<any>();
   const [currentLongitude, setCurrentLongitude] = useState<any>();
+  const [establishmentData, setEstablishmentData] = useState<any>([]);
   const { user } = useAuth();
+  const params = useParams<UpdateEstablishmentParams>();
   const history = useHistory();
+
+  useEffect(()=>{
+    (async ()=>{
+      const establishmentDataObject = (await api.get(`establishment/showOne/${Number(params.eID)}`)).data;
+      setEstablishmentData(establishmentDataObject);
+      setName(establishmentDataObject[0].nm_estabelecimento);
+      setSgState(establishmentDataObject[0].sg_estado);
+      setCity(establishmentDataObject[0].nm_cidade);
+      setPosition({ latitude: establishmentDataObject[0].latitude, longitude: establishmentDataObject[0].longitude });
+      setCurrentLatitude(establishmentDataObject[0].latitude);
+      setCurrentLongitude(establishmentDataObject[0].longitude );
+      setEType(establishmentDataObject[0].id_tp_estabelecimento);
+
+    })()
+  }, [])
 
   useEffect(()=>{
     (async ()=>{
@@ -44,15 +63,6 @@ export default function CreateEstablishment() {
       });
       setETypes(eTypeOption);
     })()
-  }, []);
-
-  useEffect(()=>{
-    navigator.geolocation.getCurrentPosition(
-      (pos)=>{
-         let latitude = pos.coords.latitude; let longitude = pos.coords.longitude;
-         setCurrentLatitude(latitude);
-         setCurrentLongitude(longitude);
-        });
   }, []);
 
   useEffect(() => {
@@ -67,7 +77,6 @@ export default function CreateEstablishment() {
       setStateOptions(stateOption);
     })
   }, []);
-
   async function searchCity(id: any){
     await ibge.get(`estados/${id}/municipios`).then(res =>{
       const cidades: Array<any> = res.data;
@@ -81,21 +90,6 @@ export default function CreateEstablishment() {
     })
   }
 
-  const convertBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
   function handleMapClick(event: LeafletMouseEvent){
     const { lat, lng } = event.latlng;
     setPosition({
@@ -108,25 +102,24 @@ export default function CreateEstablishment() {
   async function handleCreateEstablishment(e: FormEvent){
     e.preventDefault();
 
-    await api.post('establishment',{
+    await api.patch(`establishment/${user?.id}/${params.eID}`,{
       name,
       city,
-      image,
       state: sgState,
       latitude: position.latitude,
       longitude: position.longitude,
-      totalRating: 0.00,
-      idUser: user?.id,
       idEtype: eType
     }).then(()=>{
-      alert('cadastrado com sucesso');
-      history.push(`/establishment/create/accessbility`);
+      alert('Estabelecimento Atualizado com sucesso');
+      history.push(`/home`);
     }).catch(()=>{
       alert('erro ao cadastrar')
     })
   }
 
-
+  if(establishmentData && establishmentData.length == 0){
+    return <h1>Estabelecimento Inexistente</h1>;
+  }
   return (
     <div id={styles.pagePostList} className="container">
       <PageHeader
@@ -142,6 +135,7 @@ export default function CreateEstablishment() {
           label="Nome" 
           value={name} 
           onChange={(e)=>{ setName(e.target.value) }} />
+          <br/>
           {
             stateOptions && (
               <Select 
@@ -157,11 +151,10 @@ export default function CreateEstablishment() {
     
                 
               }}
-              required
                />
             )
           }
-
+          <br/>
           {
           cityOptions && (
           <Select 
@@ -179,18 +172,7 @@ export default function CreateEstablishment() {
         
 
         <fieldset>
-          <legend>Imagem e Localização</legend>
-          <TypeImage 
-          type="file" 
-          name="profile-image" 
-          label="Foto do estabelecimento"
-          value=""
-          onChange={async (e)=>{ 
-            const file = e.target.files![0];
-            const base64: any = await convertBase64(file);
-            setEPic(base64);
-          }}
-          />{
+          <legend>Localização</legend>{
             currentLatitude && currentLongitude &&
             <Map style={{ width: '100%', height: 280, borderRadius: 10 }} center={[currentLatitude, currentLongitude]} zoom={16} onclick={handleMapClick}>
             {
@@ -198,6 +180,7 @@ export default function CreateEstablishment() {
             }
           </Map>
           }
+          <br/>
             {
               eTypes &&
               <Select 

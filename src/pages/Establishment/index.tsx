@@ -52,7 +52,7 @@ interface EstablishmentType {
   nm_tipo: string;
 }
 
-export default function Orphanage() {
+export default function Establishment() {
   const params = useParams<EstablishmentParams>();
   const [establishment, setEstablishment] = useState<EstablishmentDataParams>();
   const [eType, setEType] = useState<EstablishmentType>();
@@ -81,7 +81,7 @@ export default function Orphanage() {
         <div className={styles.establishmentDetails}>
           <img src={establishment.img_estabelecimento} alt={establishment.nm_estabelecimento} />
           {
-            establishment.id_usuario == user?.id ? 
+            establishment.id_usuario === user?.id ? 
             <div className={styles.actionButtons}>
             <Link to='/'>
               <FaEdit color="#fff" size={35}></FaEdit>

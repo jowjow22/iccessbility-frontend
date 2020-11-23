@@ -8,8 +8,6 @@ import { Marker, Popup } from 'react-leaflet';
 
 import {FiPlus, FiArrowRight} from 'react-icons/fi';
 
-import { FaAccessibleIcon } from 'react-icons/fa';
-
 import iccessLogo from '../../assets/images/NewLogo.png';
 
 import backIcon from '../../assets/images/icons/back.svg';

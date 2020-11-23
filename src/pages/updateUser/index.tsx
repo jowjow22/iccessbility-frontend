@@ -6,7 +6,6 @@ import warningIcon from '../../assets/images/icons/warning.svg';
 import styles from './style.module.css';
 import Textarea from '../../components/Textarea';
 import Select from '../../components/Select';
-import TypeImage from '../../components/TypeImage';
 import ibge from '../../services/ibge';
 import api from '../../services/api';
 import { useHistory } from 'react-router-dom';
@@ -21,8 +20,6 @@ export default function UpdateUser() {
   const [birth, setBirth] = useState('');
   const [cpfCnpj, setCpfCnpj] = useState('');
   const [phone, setPhone] = useState('')
-  const [profilePic, setProfilePic] = useState();
-  const [coverPic, setCoverPic] = useState();
   const [bio, setBio] = useState('');
   let stateOption: any = [];
   let cityOption: any = [];
@@ -74,34 +71,16 @@ export default function UpdateUser() {
     })
   }
 
-  const convertBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-
   function handleCreateUser(e: FormEvent){
     e.preventDefault();
     api.patch(`user/${user?.id}`, {
       nome: name,
       nascimento: birth,
-      foto: profilePic,
       endereco: adress,
       cidade: city,
       estado: sgState,
       cpf_cnpj: cpfCnpj,
       bio,
-      capa: coverPic,
       telefone: phone
     }).then(()=>{
       alert('Perfil atualizado com sucesso');
