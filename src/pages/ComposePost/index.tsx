@@ -83,7 +83,7 @@ export default function SignIn() {
       <main>
         <form onSubmit={handleCreateUser} >
         <fieldset>
-          <legend>Seus Dados</legend>
+          <legend>Dados do post</legend>
           <Input 
           name="name" 
           label="Nome do Post" 

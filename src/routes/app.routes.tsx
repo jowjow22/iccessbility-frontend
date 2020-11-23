@@ -5,24 +5,30 @@ import Home from '../pages/Home';
 import Establishments from '../pages/Establishments';
 import Establishment from '../pages/Establishment';
 import CreateEstablishment from '../pages/CreateEstablishments';
+import CreateEstablishmentAccessbility from '../pages/CreateEstablishmentsAccessibility';
 import ComposePost from '../pages/ComposePost';
 import UserProfile from '../pages/UserProfile';
+import DelSomething from '../pages/DelSomething';
+import DelUser from '../pages/DelUser';
 
 interface AppRoutesProps {
   userType: string | undefined;
 }
 
 const AppRoutes: React.FC<AppRoutesProps> = (props) => {
-  return props.userType == 'Jurídica' ? 
+  return props.userType === 'Jurídica' ? 
   (
   <BrowserRouter>
     <Switch>
       <Route path="/home" component={Home} />
       <Route path="/establishments" exact component={Establishments} />
-      <Route path="/establishment/:id" exact component={Establishment} />
-      <Route path="/create" exact component={CreateEstablishment} />
+      <Route path="/establishment/showOne/:id" exact component={Establishment} />
+      <Route path="/establishment/create" exact component={CreateEstablishment} />
+      <Route path="/delSomething/:thingToDel/:userID/:thingID" exact component={DelSomething} />
+      <Route path="/delUser" exact component={DelUser} />
+      <Route path="/establishment/create/accessbility" exact component={CreateEstablishmentAccessbility} />
       <Route path="/composePost" exact component={ComposePost} />
-      <Route path="/profile" exact component={UserProfile} />
+      <Route path="/profile/:userID" exact component={UserProfile} />
     </Switch>
   </BrowserRouter>
 ) : (
@@ -30,9 +36,12 @@ const AppRoutes: React.FC<AppRoutesProps> = (props) => {
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/establishments" exact component={Establishments} />
+        <Route path="/establishment/showOne/:id" exact component={Establishment} />
         <Route path="/establishment/:id" exact component={Establishment} />
+        <Route path="/delSomething/a/:userID/:thingID" exact component={DelSomething} />
+        <Route path="/delUser" exact component={DelUser} />
         <Route path="/composePost" exact component={ComposePost} />
-        <Route path="/profile" exact component={UserProfile} />
+        <Route path="/profile/:userID" exact component={UserProfile} />
       </Switch>
   </BrowserRouter>
 );

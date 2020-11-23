@@ -1,9 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
 import api from '../../services/api';
 import styles from  './style.module.css';
 
 interface WhoToFollowProps {
+  id: number;
   name: string;
   personType: string;
   profilePic: string;
@@ -12,12 +14,15 @@ interface WhoToFollowProps {
 
 const WhoToFollow: React.FC<WhoToFollowProps> = (props) => {
   const { user } = useAuth();
+  const history = useHistory();
   return (
     <article className={styles.followItem}>
       <header>
         <img src={props.profilePic} alt={props.name} />
         <div>
-          <strong>{props.name}</strong>
+          <strong onClick={()=>{
+            history.push(`/profile/${props.id}`);
+          }}>{props.name}</strong>
           <span>Pessoa {props.personType}</span>
         </div>
       </header>

@@ -35,8 +35,8 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(()=>{
     async function loadStorageData(){
-       const storagedUser = await localStorage.getItem('@Iccessbility:user');
-       const storagedToken = await localStorage.getItem('@Iccessbility:token');
+       const storagedUser = await sessionStorage.getItem('@Iccessbility:user');
+       const storagedToken = await sessionStorage.getItem('@Iccessbility:token');
       
 
        if(storagedToken && storagedUser){
@@ -63,15 +63,15 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
 
-    localStorage.setItem('@Iccessbility:user', JSON.stringify(res.data.user));
-    localStorage.setItem('@Iccessbility:token', res.data.token);
+    sessionStorage.setItem('@Iccessbility:user', JSON.stringify(res.data.user));
+    sessionStorage.setItem('@Iccessbility:token', res.data.token);
   }catch(err){
     alert("Cpf ou senha incorretos, retorne a página de login e tente novamente");
   }
   }
 
   async function signOut(){
-    await localStorage.clear();
+    await sessionStorage.clear();
     setUser(null);
   }
 

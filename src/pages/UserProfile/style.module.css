@@ -2,6 +2,113 @@
   width: 100vw;
   height: 100vh;
 }
+#pageUserProfile header {
+  width: 70%;
+  margin: 40px auto;
+}
+#pageUserProfile header .headerContent {
+  position: relative;
+  width: 100%;
+  height: 240px;
+}
+
+#pageUserProfile header .headerContent .actionIcons {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 90%;
+  left: 4%;
+  top: 10%;
+}
+#pageUserProfile header .headerContent .actionIcons .deleteProfile > svg {
+  transition: 0.5s;
+}
+#pageUserProfile header .headerContent .actionIcons .deleteProfile > svg:hover {
+  fill: rgb(247, 32, 50);
+}
+
+#pageUserProfile main {
+  width: 100%;
+  max-width: 74rem;
+  border-radius: 0.8rem;
+  margin: 20rem auto 3.2rem;
+  padding-top: 0rem;
+}
+#pageUserProfile main > article > header > svg {
+  position: absolute;
+  right: -30%;
+}
+#pageUserProfile main > article > header {
+  margin-left: 0px;
+  margin-top: 10px;
+}
+#pageUserProfile .headerContent > .coverPic {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+}
+#pageUserProfile .headerContent > .coverPic img {
+  width: 100%;
+  object-fit: cover;
+}
+#pageUserProfile header .headerContent .userInfos {
+  position: absolute;
+  width: 100%;
+  background: var(--color-box-base);
+  height: 150px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+#pageUserProfile header .headerContent .userInfos .infos {
+  position: absolute;
+  left: 30%;
+  top: 15%;
+}
+#pageUserProfile header .headerContent .userInfos button {
+  position: absolute;
+  left: 80%;
+  top: 50%;
+  border: none;
+  border-radius: 0.8rem;
+  height: 5rem;
+  width: 15rem;
+  background: var(--color-primary-lighter);
+  color: var(--color-button-text);
+  cursor: pointer;
+  font: 700 1.4rem Archivo;
+  transition: 0.2s;
+}
+#pageUserProfile header .headerContent .userInfos button#unfollowButton {
+  position: absolute;
+  left: 80%;
+  top: 50%;
+  border: none;
+  border-radius: 0.8rem;
+  height: 5rem;
+  width: 15rem;
+  background: var(--color-secundary);
+  color: var(--color-button-text);
+  cursor: pointer;
+  font: 700 1.4rem Archivo;
+  transition: 0.2s;
+}
+#pageUserProfile header .headerContent .userInfos button:hover {
+  background: var(--color-primary-light);
+}
+#pageUserProfile header .headerContent .userInfos button#unfollowButton:hover {
+  background: var(--color-secundary-dark);
+}
+#pageUserProfile .headerContent > .userPic img {
+  position: absolute;
+  width: 20%;
+  top: 55%;
+  left: 7%;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  z-index: 10;
+}
 @media (min-width: 700px) {
   #pageUserProfile {
     max-width: 100vw;

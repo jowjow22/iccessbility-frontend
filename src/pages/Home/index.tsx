@@ -9,7 +9,7 @@ import makePost from '../../assets/images/icons/makePost.svg';
 import establishment from '../../assets/images/icons/establishment.svg';
 import WhoToFollow from '../../components/WhoToFollow';
 import WhoYouFollow from '../../components/WhoYouFollow';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {useAuth} from '../../Context/AuthContext';
 import api from '../../services/api';
 
@@ -18,6 +18,7 @@ export default function Home() {
   const [notFollowingUsers, setNotFollowing] = useState<Array<any>>();
   const [followingUsers, setFollowing] = useState<Array<any>>();
   const [posts, setPosts] = useState<Array<any>>();
+  const history = useHistory();
 
   useEffect(()=>{
     (async () =>{
@@ -37,7 +38,7 @@ export default function Home() {
 
   useEffect(()=>{
     (async () =>{
-        const res =  await api.get(`post/${user?.id}`)
+        const res =  await api.get(`post/${user?.id}/${user?.city}`);
         const posts: Array<any> = res.data;
         await setPosts(posts);
     })()
@@ -58,7 +59,9 @@ export default function Home() {
         <Link to="/" onClick={()=>{handleSignOut()}} >
           <img src={offIcon} alt="Sair" />
         </Link>
-          <img src={user?.profilePic} alt="Sair" />
+          <img src={user?.profilePic} alt="Sair" className={styles.profilePic} onClick={()=>{
+            history.push(`/profile/${user?.id}`);
+          }} />
       </NavBar>
       <div className={styles.mainBody}>
       <main>
@@ -67,7 +70,7 @@ export default function Home() {
           if(post.Owner.type === "Física"){
             return <PostItem
             key={post.postData.id} 
-            user={post.Owner} 
+            owner={post.Owner} 
             post={{
               title: post.postData.title,
               desc: post.postData.desc,
@@ -75,13 +78,14 @@ export default function Home() {
               likes: post.postData.likesNum,
               postImage: post.postData.postImage,
               price: post.postData.price
-            }} 
+            }}
+            userID={user!.id}
             />
           }
           else{
             return <PostItem
             key={post.postData.id} 
-            user={post.Owner} 
+            owner={post.Owner} 
             post={{
               title: post.postData.title,
               desc: post.postData.desc,
@@ -90,7 +94,8 @@ export default function Home() {
               postImage: post.postData.postImage,
               price: post.postData.price,
               discount: post.postData.discount
-            }} 
+            }}
+            userID={user!.id}
             />
           }
         })
@@ -102,6 +107,7 @@ export default function Home() {
         notFollowingUsers?.map((notFollowingUser)=>{
           return <WhoToFollow
                   key={notFollowingUser.cd_usuario}
+                  id={notFollowingUser.cd_usuario}
                   name={notFollowingUser.nm_usuario} 
                   personType={notFollowingUser.tp_pessoa} 
                   profilePic={notFollowingUser.img_foto} 
@@ -116,7 +122,8 @@ export default function Home() {
       {
         followingUsers?.map((following)=>{
           return <WhoYouFollow
-                  key={following.cd_usuario} 
+                  key={following.cd_usuario}
+                  id={following.cd_usuario}
                   name={following.nm_usuario} 
                   personType={following.tp_pessoa} 
                   profilePic={following.img_foto} 

@@ -1,57 +1,122 @@
-import React from "react";
-import { FaWhatsapp } from "react-icons/fa";
-import { FiClock, FiInfo } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FaWhatsapp, FaTrashAlt, FaEdit } from "react-icons/fa";
 import { Marker } from "react-leaflet";
+import { Link, useParams } from 'react-router-dom';
 
 import PrimaryButton from "../../components/PrimaryButton";
 import Map from '../../components/Map';
 import mapIcon from '../../components/Map/iccessMapIcon';
 
-import './styles.css';
+import styles from './style.module.css';
+import { useState } from "react";
+import api from "../../services/api";
+import Sidebar from "../../components/Sidebar";
+import { useAuth } from "../../Context/AuthContext";
+
+interface EstablishmentParams {
+  id: string;
+}
+
+interface EstablishmentDataParams {
+  cd_estabelecimento: number;
+  nm_estabelecimento: string;
+  nm_cidade_estabelecimento: string;
+  img_estabelecimento: string;
+  sg_estado: string;
+  latitude: number;
+  longitude: number;
+  qt_media_stars: number;
+  acessibilidade: string;
+  id_usuario: number;
+  id_tp_estabelecimento:number;
+}
+
+interface EOwner {
+  cd_usuario: number;
+  nm_usuario: string;
+  dt_nascimento: string;
+  img_foto: string;
+  nm_endereco: string;
+  nm_cidade: string;
+  sg_estado: string;
+  tp_pessoa: string;
+  nm_cpf_cnpj: string;
+  ds_bio: string;
+  img_capa: string;
+  nm_senha: string;
+  nr_telefone: string;
+}
+interface EstablishmentType {
+  cd_tp_estabelecimento: number;
+  nm_tipo: string;
+}
 
 export default function Orphanage() {
-  return (
-    <div id="page-orphanage">
-      <main>
-        <div className="orphanage-details">
-          <img src="https://www.gcd.com.br/wp-content/uploads/2020/08/safe_image.jpg" alt="Lar das meninas" />
-          
-          <div className="orphanage-details-content">
-            <h1>Lar das meninas</h1>
-            <p>Presta assistência a crianças de 06 a 15 anos que se encontre em situação de risco e/ou vulnerabilidade social.</p>
+  const params = useParams<EstablishmentParams>();
+  const [establishment, setEstablishment] = useState<EstablishmentDataParams>();
+  const [eType, setEType] = useState<EstablishmentType>();
+  const [eOwner, setEOwner] = useState<EOwner>();
+  const { user } = useAuth();
+  
+  useEffect(()=>{
+    (async ()=>{
+      const establishmentData = await api.get(`establishment/showOne/${params.id}`);
+      setEstablishment(establishmentData.data[0]);
+      const establishmentType = await api.get(`eType/${establishmentData.data[0].id_tp_estabelecimento}`);
+      setEType(establishmentType.data);
+      const establishmentOwner = await api.get(`user/${establishmentData.data[0].id_usuario}`);
+      setEOwner(establishmentOwner.data);
+    })()
+  }, [params.id])
 
-            <div className="map-container">
-              <Map 
+  if(!establishment){
+    return <h1>Loading...</h1>;
+  }
+
+  return (
+    <div id={styles.pageEstablishment}>
+      <Sidebar />
+      <main>
+        <div className={styles.establishmentDetails}>
+          <img src={establishment.img_estabelecimento} alt={establishment.nm_estabelecimento} />
+          {
+            establishment.id_usuario == user?.id ? 
+            <div className={styles.actionButtons}>
+            <Link to='/'>
+              <FaEdit color="#fff" size={35}></FaEdit>
+            </Link>
+            <Link to={`/delSomething/establishment/${user.id}/${establishment.cd_estabelecimento}`}>
+              <FaTrashAlt color="#fff" className={styles.delete} size={35}></FaTrashAlt>
+            </Link>
+          </div> : null
+          }
+          <div className={styles.establishmentDetailsContent}>
+          <h1>{establishment.nm_estabelecimento}</h1>
+          <p>{eType?.nm_tipo}</p>
+
+            <div className={styles.mapContainer}>
+              <Map
+                center={[establishment.latitude, establishment.longitude]}
                 interactive={false}
                 style={{ width: '100%', height: 280 }}
               >
-                <Marker interactive={false} icon={mapIcon} position={[-24.2778112, -46.9630976]} />
+                <Marker interactive={false} icon={mapIcon} position={[establishment.latitude, establishment.longitude]} />
               </Map>
 
               <footer>
-                <a href="/">Ver rotas no Google Maps</a>
+                <a target="_blank" rel="noopener noreferrer" href={`https://www.google.com/maps/dir/?api=1&destination=${establishment.latitude},${establishment.longitude}`}>Ver rotas no Google Maps</a>
               </footer>
             </div>
 
             <hr />
 
-            <h2>Instruções para visita</h2>
-            <p>Venha como se sentir mais à vontade e traga muito amor para dar.</p>
+            <h2>Esse estabelecimento fornece acessbilidade à: </h2>
+            <p>{establishment.acessibilidade}</p>
 
-            <div className="open-details">
-              <div className="hour">
-                <FiClock size={32} color="#15B6D6" />
-                Segunda à Sexta <br />
-                8h às 18h
-              </div>
-              <div className="open-on-weekends">
-                <FiInfo size={32} color="#39CC83" />
-                Atendemos <br />
-                fim de semana
-              </div>
-            </div>
 
-            <PrimaryButton type="button">
+            <PrimaryButton type="button" onClick={()=>{
+             window.location.href = `https://wa.me/55${eOwner?.nr_telefone}`;
+            }}>
               <FaWhatsapp size={20} color="#FFF" />
               Entrar em contato
             </PrimaryButton>

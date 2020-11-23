@@ -14,12 +14,13 @@ import { Marker } from 'react-leaflet';
 import {LeafletMouseEvent} from 'leaflet';
 import api from '../../services/api';
 import { useAuth } from '../../Context/AuthContext';
-
+import { useHistory } from 'react-router-dom';
+//
 export default function SignIn() {
   const [name, setName] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
-  const [establishmentPic, setEPic] = useState();
+  const [image, setEPic] = useState();
   const [eType, setEType] = useState('');
   let stateOption: any = [];
   let cityOption: any = [];
@@ -29,7 +30,10 @@ export default function SignIn() {
   const [sgState, setSgState] = useState('');
   const [position, setPosition] = useState<any>({ latitude: 0, longitude: 0 });
   const [eTypes, setETypes] = useState<any>();
+  const [currentLatitude, setCurrentLatitude] = useState<any>();
+  const [currentLongitude, setCurrentLongitude] = useState<any>();
   const { user } = useAuth();
+  const history = useHistory();
 
   useEffect(()=>{
     (async ()=>{
@@ -40,6 +44,15 @@ export default function SignIn() {
       });
       setETypes(eTypeOption);
     })()
+  }, []);
+
+  useEffect(()=>{
+    navigator.geolocation.getCurrentPosition(
+      (pos)=>{
+         let latitude = pos.coords.latitude; let longitude = pos.coords.longitude;
+         setCurrentLatitude(latitude);
+         setCurrentLongitude(longitude);
+        });
   }, []);
 
   useEffect(() => {
@@ -92,14 +105,14 @@ export default function SignIn() {
   }
 
 
-  function handleCreateClass(e: FormEvent){
+  async function handleCreateEstablishment(e: FormEvent){
     e.preventDefault();
 
-    api.post('establishment',{
+    await api.post('establishment',{
       name,
-      sgState,
       city,
-      establishmentPic,
+      image,
+      state: sgState,
       latitude: position.latitude,
       longitude: position.longitude,
       totalRating: 0.00,
@@ -107,8 +120,9 @@ export default function SignIn() {
       idEtype: eType
     }).then(()=>{
       alert('cadastrado com sucesso');
+      history.push(`/create/establishment/${user?.id}`);
     }).catch(()=>{
-      alert('erro no cadastro');
+      alert('erro ao cadastrar')
     })
   }
 
@@ -120,7 +134,7 @@ export default function SignIn() {
         description="Preencha este formulário para cadastrar seu estabelecimento"
       />
       <main>
-        <form onSubmit={handleCreateClass} >
+        <form onSubmit={handleCreateEstablishment} >
         <fieldset>
           <legend>Dados do estabelecimento</legend>
           <Input 
@@ -169,19 +183,21 @@ export default function SignIn() {
           <TypeImage 
           type="file" 
           name="profile-image" 
-          label="Foto de Perfil"
+          label="Foto do estabelecimento"
           value=""
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);
             setEPic(base64);
           }}
-          />
-          <Map style={{ width: '100%', height: 280, borderRadius: 10 }} onclick={handleMapClick}>
+          />{
+            currentLatitude && currentLongitude &&
+            <Map style={{ width: '100%', height: 280, borderRadius: 10 }} center={[currentLatitude, currentLongitude]} zoom={16} onclick={handleMapClick}>
             {
               position.latitude != 0 && <Marker interactive={false} icon={mapIcon} position={[ position.latitude, position.longitude]} />
             }
           </Map>
+          }
             {
               eTypes &&
               <Select 

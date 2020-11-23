@@ -26,7 +26,7 @@ export default function SignIn() {
   function handleLogin(e: FormEvent){
     e.preventDefault();
     signIn(cpfCpnj, pass).then(()=>{
-      if(localStorage.getItem('@Iccessbility:user')){
+      if(sessionStorage.getItem('@Iccessbility:user')){
         history.push('/home');
         window.location.reload();
       }

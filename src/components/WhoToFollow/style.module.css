@@ -24,6 +24,7 @@
 }
 
 .followItem header div strong {
+  cursor: pointer;
   font: 700 2rem Archivo;
   display: block;
   color: var(--color-text-title);

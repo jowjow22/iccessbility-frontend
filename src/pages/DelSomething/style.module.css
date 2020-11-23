@@ -1,0 +1,52 @@
+#pageDelSomething {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+#pageDelSomething article {
+  width: 70%;
+  background: var(--color-box-base);
+  border: 1px solid var(--color-line-in-white);
+  border-radius: 0.8rem;
+  margin-top: 2.4rem;
+  overflow: hidden;
+}
+#pageDelSomething article header {
+  padding: 5rem 5rem;
+  text-align: center;
+}
+#pageDelSomething article footer {
+  padding: 3.2rem 2rem;
+  background: var(--color-box-footer);
+  border-top: 1px solid var(--color-line-in-white);
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#pageDelSomething article footer button {
+  width: 18rem;
+  height: 5rem;
+  border: none;
+  border-radius: 0.8rem;
+  cursor: pointer;
+}
+#pageDelSomething article footer button.cancel {
+  background: var(--color-primary-dark);
+  color: var(--color-text-in-primary);
+  transition: background 0.5s;
+}
+#pageDelSomething article footer button.cancel:hover {
+  background: var(--color-primary-darker);
+}
+#pageDelSomething article footer button.confirm {
+  background: #f52929;
+  color: var(--color-text-in-primary);
+  transition: background 0.5s;
+}
+#pageDelSomething article footer button.confirm:hover {
+  background: rgb(220, 37, 37);
+}

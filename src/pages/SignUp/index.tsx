@@ -94,8 +94,8 @@ export default function SignIn() {
       alert('cadastro realizado com sucesso');
       history.push('/');
 
-    }).catch(()=>{
-      alert('erro no cadastro')
+    }).catch((err)=>{
+      console.log(err);
     })
   }
 
