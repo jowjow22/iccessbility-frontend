@@ -10,7 +10,7 @@ import ComposePost from '../pages/ComposePost';
 import UserProfile from '../pages/UserProfile';
 import DelSomething from '../pages/DelSomething';
 import DelUser from '../pages/DelUser';
-import UpdateUser from '../pages/UpdateUser';
+import UpdateUser from '../pages/updateUser';
 import UpdateEstablishment from '../pages/UpdateEstablishment';
 
 interface AppRoutesProps {
@@ -42,7 +42,7 @@ const AppRoutes: React.FC<AppRoutesProps> = (props) => {
         <Route path="/establishments" exact component={Establishments} />
         <Route path="/establishment/showOne/:id" exact component={Establishment} />
         <Route path="/establishment/:id" exact component={Establishment} />
-        <Route path="/delSomething/a/:userID/:thingID" exact component={DelSomething} />
+        <Route path="/delSomething/:thingToDel/:userID/:thingID" exact component={DelSomething} />
         <Route path="/user/update" exact component={UpdateUser} />
         <Route path="/delUser" exact component={DelUser} />
         <Route path="/composePost" exact component={ComposePost} />

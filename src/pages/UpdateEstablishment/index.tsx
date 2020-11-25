@@ -123,8 +123,8 @@ export default function UpdateEstablishment() {
   return (
     <div id={styles.pagePostList} className="container">
       <PageHeader
-        title="Cadastro de Estabelecimento"
-        description="Preencha este formulário para cadastrar seu estabelecimento"
+        title="Atualização de dados do Estabelecimento"
+        description="Altere apenas os campos que deseja atualizar"
       />
       <main>
         <form onSubmit={handleCreateEstablishment} >
@@ -199,7 +199,7 @@ export default function UpdateEstablishment() {
             Preencha todos os dados
           </p>
           <button type="submit">
-              Salvar cadastro
+              Atualizar estabelecimento
           </button>
         </footer>
         </form>

@@ -63,13 +63,17 @@ export default function Establishment() {
     (async ()=>{
       const establishmentData = await api.get(`establishment/showOne/${params.id}`);
       setEstablishment(establishmentData.data[0]);
-      const establishmentType = await api.get(`eType/${establishmentData.data[0].id_tp_estabelecimento}`);
-      setEType(establishmentType.data);
-      const establishmentOwner = await api.get(`user/${establishmentData.data[0].id_usuario}`);
-      setEOwner(establishmentOwner.data);
+      if(establishmentData.data.length != 0){
+        const establishmentType = await api.get(`eType/${establishmentData.data[0].id_tp_estabelecimento}`);
+        setEType(establishmentType.data);
+        const establishmentOwner = await api.get(`user/${establishmentData.data[0].id_usuario}`);
+        setEOwner(establishmentOwner.data);
+      }
     })()
   }, [params.id])
-
+  if(establishment == null){
+    return <h1>Estabelecimento inexistente</h1>
+  }
   if(!establishment){
     return <h1>Loading...</h1>;
   }
@@ -83,7 +87,7 @@ export default function Establishment() {
           {
             establishment.id_usuario === user?.id ? 
             <div className={styles.actionButtons}>
-            <Link to='/'>
+            <Link to={`/establishment/update/${establishment.cd_estabelecimento}`}>
               <FaEdit color="#fff" size={35}></FaEdit>
             </Link>
             <Link to={`/delSomething/establishment/${user.id}/${establishment.cd_estabelecimento}`}>

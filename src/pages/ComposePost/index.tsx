@@ -56,21 +56,42 @@ export default function ComposePost() {
 
   function handleCreateUser(e: FormEvent){
     e.preventDefault();
-    api.post('post', {
-      name,
-      description: desc,
-      image: postPic,
-      type: postType,
-      status: '',
-      idType: typeProdServ,
-      idUser: user?.id
-    }).then(()=>{
-      alert('cadastro realizado com sucesso');
-      history.push('/home');
-
-    }).catch(()=>{
-      alert('erro no cadastro')
-    })
+    if(discount != ''){
+      api.post('post', {
+        name,
+        description: desc,
+        image: postPic,
+        type: postType,
+        discount,
+        val,
+        status: '',
+        idType: typeProdServ,
+        idUser: user?.id
+      }).then(()=>{
+        alert('cadastro realizado com sucesso');
+        history.push('/home');
+  
+      }).catch(()=>{
+        alert('erro no cadastro')
+      })
+    }else{
+      api.post('post', {
+        name,
+        description: desc,
+        image: postPic,
+        type: postType,
+        val,
+        status: '',
+        idType: typeProdServ,
+        idUser: user?.id
+      }).then(()=>{
+        alert('cadastro realizado com sucesso');
+        history.push('/home');
+  
+      }).catch(()=>{
+        alert('erro no cadastro')
+      })
+    }
   }
 
 

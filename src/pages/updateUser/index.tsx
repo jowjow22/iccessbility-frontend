@@ -95,8 +95,8 @@ export default function UpdateUser() {
   return (
     <div id={styles.pagePostList} className="container">
       <PageHeader
-        title="Bem vindo(a) cadastre-se para entrar na plataforma!"
-        description="Preencha este formulário para poder acessar a plataforma"
+        title="Atualizção de dados cadastrais"
+        description="Altere apenas os campos que deseja atualizar"
       />
       <main>
         <form onSubmit={handleCreateUser} >
@@ -174,7 +174,7 @@ export default function UpdateUser() {
             Preencha todos os dados
           </p>
           <button type="submit">
-              Salvar cadastro
+              Atualizar Cadastro
           </button>
         </footer>
         </form>

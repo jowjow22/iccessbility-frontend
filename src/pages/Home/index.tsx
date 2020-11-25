@@ -83,6 +83,7 @@ export default function Home() {
             />
           }
           else{
+            console.log(post.postData);
             return <PostItem
             key={post.postData.id} 
             owner={post.Owner} 

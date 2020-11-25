@@ -11,17 +11,14 @@ interface RatingStarProps{
 }
 
 const RatingStars: React.FC<RatingStarProps> = (props) => {
-  const [rating, setRating] = useState<number>();
+  const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<any>();
 
   useEffect(()=>{
    (async()=>{
-    const  verifyRating = (await api.get(`rating/your/${props.eID}/${props.userID}`)).data[0].qt_stars;
-    console.log(verifyRating);
-    if(verifyRating){
-      setRating(verifyRating);
-    }else{
-      setRating(0);
+    const  verifyRating = (await api.get(`rating/your/${props.eID}/${props.userID}`)).data;
+    if(verifyRating.length > 0){
+      setRating(verifyRating[0].qt_stars);
     }
    })()
   }, []);
@@ -47,7 +44,7 @@ const RatingStars: React.FC<RatingStarProps> = (props) => {
             />
 
             {
-              rating && <FaStar 
+              <FaStar 
               size={'5.96vw'} 
               className={styles.star} 
               color={ ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9" } 
@@ -58,7 +55,6 @@ const RatingStars: React.FC<RatingStarProps> = (props) => {
                 setHover(null)
               }}
               >
-  
               </FaStar>
             }
           </label>
