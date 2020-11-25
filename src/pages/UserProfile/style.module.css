@@ -109,14 +109,20 @@
 #pageUserProfile header .headerContent .userInfos button#unfollowButton:hover {
   background: var(--color-secundary-dark);
 }
-#pageUserProfile .headerContent > .userPic img {
+#pageUserProfile .headerContent > .userPic {
   position: absolute;
-  width: 20%;
+  width: 200px;
+  height: 200px;
   top: 55%;
   left: 7%;
   border: 5px solid #fff;
   border-radius: 50%;
   z-index: 10;
+  overflow: hidden;
+}
+#pageUserProfile .headerContent > .userPic img {
+  width: 100%;
+  object-fit: cover;
 }
 @media (min-width: 700px) {
   #pageUserProfile {
@@ -134,7 +140,9 @@
   #pageUserProfile header .headerContent > .coverPic img {
     height: 100%;
   }
-  #pageUserProfile .headerContent > .userPic img {
+  #pageUserProfile .headerContent > .userPic {
+    width: 100px;
+    height: 100px;
   }
   #pageUserProfile header .headerContent .userInfos .infos {
     left: 10%;
