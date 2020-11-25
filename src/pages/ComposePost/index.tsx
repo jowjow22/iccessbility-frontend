@@ -129,6 +129,7 @@ export default function ComposePost() {
             const base64: any = await convertBase64(file);
             setPostPic(base64);
           }}
+          required
           />
 
           <Select 

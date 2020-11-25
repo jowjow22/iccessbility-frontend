@@ -25,7 +25,9 @@
   font: 1.6rem Archivo;
 }
 .imageBlock input {
-  display: none;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
 }
 .imageBlock:focus-within::after {
   width: calc(100% - 3.2rem);
