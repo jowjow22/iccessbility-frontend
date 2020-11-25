@@ -185,6 +185,7 @@ export default function CreateEstablishment() {
           name="profile-image" 
           label="Foto do estabelecimento"
           value=""
+          required
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);

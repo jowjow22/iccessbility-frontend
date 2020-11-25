@@ -20,6 +20,15 @@
   left: 4%;
   top: 10%;
 }
+#pageUserProfile header .headerContent .actionIcons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  width: 50px;
+  border-radius: 50%;
+  height: 50px;
+}
 #pageUserProfile header .headerContent .actionIcons .deleteProfile > svg {
   transition: 0.5s;
 }
@@ -112,5 +121,34 @@
 @media (min-width: 700px) {
   #pageUserProfile {
     max-width: 100vw;
+  }
+}
+@media (max-width: 700px) {
+  #pageUserProfile header {
+    margin-top: 0;
+    width: 100%;
+  }
+  #pageUserProfile header .headerContent > .coverPic {
+    border-radius: 0;
+  }
+  #pageUserProfile header .headerContent > .coverPic img {
+    height: 100%;
+  }
+  #pageUserProfile .headerContent > .userPic img {
+  }
+  #pageUserProfile header .headerContent .userInfos .infos {
+    left: 10%;
+  }
+  #pageUserProfile header .headerContent .userInfos .infos h1 {
+    font-size: 2rem;
+  }
+  #pageUserProfile header .headerContent .userInfos .infos p {
+    font-size: 1rem;
+  }
+  #pageUserProfile header .headerContent .userInfos button,
+  #pageUserProfile header .headerContent .userInfos button#unfollowButton {
+    width: 7rem;
+    left: 75%;
+    top: 50%;
   }
 }

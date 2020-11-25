@@ -2,6 +2,11 @@
   width: 100vw;
   height: 100vh;
 }
+#pagePostList nav {
+  height: 50px;
+  font-size: 2rem;
+}
+
 #pagePostList main label {
   color: var(--color-text-complement);
 }
@@ -11,24 +16,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: var(--color-box-base);
+  overflow-y: scroll;
   min-height: 50rem;
   border-radius: 0.8rem;
   min-width: 8rem;
   width: 20%;
 }
-
+.showUsers {
+  display: none;
+}
 #pagePostList main {
   width: 100%;
   max-width: 74rem;
   border-radius: 0.8rem;
-  margin: -0.8rem auto 3.2rem;
+  margin: -0.18rem auto 3.2rem;
   padding-top: 0rem;
 }
 @media (min-width: 700px) {
   #pagePostList {
     max-width: 100vw;
+  }
+  .showUsers {
+    display: none;
   }
   #pagePostList .mainBody {
     margin-top: 10rem;
@@ -63,6 +73,21 @@
     grid-area: other;
   }
   ::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media (max-width: 1320px) {
+  .sideBar,
+  .sideBarRight {
+    display: none;
+    width: 40rem;
+  }
+  .showUsers {
+    display: unset;
+  }
+}
+@media (max-width: 800px) {
+  #actionButtons {
     display: none;
   }
 }

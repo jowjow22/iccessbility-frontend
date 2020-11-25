@@ -194,6 +194,7 @@ export default function SignUp() {
           name="profile-image" 
           label="Foto de Perfil"
           value=""
+          required
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);
@@ -205,6 +206,7 @@ export default function SignUp() {
           name="cover-image" 
           label="Foto de Capa"
           value=""
+          required
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);

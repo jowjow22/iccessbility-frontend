@@ -69,7 +69,7 @@
 }
 
 .postImage > img {
-  width: 700px;
+  width: 100%;
   max-width: 700px;
   border-radius: 0.8rem;
 }
@@ -115,6 +115,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  padding: 1rem 1rem;
   transition: 0.2s;
 }
 .postItem footer button {
@@ -161,10 +162,26 @@
   }
   .postItem footer a {
     width: 14.5rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     justify-content: center;
   }
   .postItem footer button img {
     margin-right: 1rem;
+  }
+}
+@media (max-width: 700px) {
+  .postItem footer a {
+    width: 14.5rem;
+    font-size: 1rem;
+    justify-content: center;
+  }
+  .postItem footer a img {
+    max-width: 2rem;
+  }
+  .postItem footer p strong {
+    font-size: 1rem;
+  }
+  .postItem footer p {
+    font-size: 1.3rem;
   }
 }

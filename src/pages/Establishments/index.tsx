@@ -19,6 +19,7 @@ import 'leaflet/dist/leaflet.css';
 import mapIcon from '../../components/Map/iccessMapIcon';
 import { useAuth } from '../../Context/AuthContext';
 import api from '../../services/api';
+import { FaArrowLeft } from 'react-icons/fa';
 
 function EstablishmentMap(){
   const { goBack } = useHistory();
@@ -47,6 +48,10 @@ function EstablishmentMap(){
   
   return (
     <div id={styles.pageMap}>
+      <Link to="" onClick={goBack} className={styles.buttonBack}>
+        <FaArrowLeft size={35} color="#fff"></FaArrowLeft>
+      </Link>
+
       <aside>
         <header>
         <button onClick={goBack}>

@@ -10,7 +10,7 @@ import ComposePost from '../pages/ComposePost';
 import UserProfile from '../pages/UserProfile';
 import DelSomething from '../pages/DelSomething';
 import DelUser from '../pages/DelUser';
-import UpdateUser from '../pages/updateUser';
+import UpdateUser from '../pages/UpdateUser';
 import UpdateEstablishment from '../pages/UpdateEstablishment';
 
 interface AppRoutesProps {

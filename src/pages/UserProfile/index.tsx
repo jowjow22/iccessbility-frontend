@@ -49,16 +49,16 @@ if(!profile){
         <div className={styles.headerContent}>
           <div className={styles.actionIcons}>
             <Link to="/home" >
-              <FaArrowLeft color="#808080" size={25} />
+              <FaArrowLeft color="#48d5ee" size={25} />
             </Link>
             {
               Number(params.userID) === user?.id ? (
               <>
               <Link to='/user/update'>
-                <FaEdit color="#fff" size={35} />
+                <FaEdit color="#48d5ee" size={25} />
               </Link>  
               <Link to={`/delUser`} className={styles.deleteProfile} > 
-                <FaTrashAlt color="#fff" size={25} /> 
+                <FaTrashAlt color="#f04040" size={25} /> 
               </Link> 
               </>
               ) : null

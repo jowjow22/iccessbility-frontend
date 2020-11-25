@@ -5,6 +5,8 @@ import logoImg from '../../assets/images/BrandWithNameOrange.svg';
 
 import styles from './styles.module.css';
 
+import {FaBars} from 'react-icons/fa';
+
 interface NavBarProps {
 }
 
@@ -16,11 +18,12 @@ const NavBar: React.FC<NavBarProps> = (props) => {
         <img src={logoImg} alt="Iccessbility" />
         </Link>
 
-      <div className={styles.actionButtons}>
+      <div className={styles.actionButtons} id="actionButtons">
         {
           props.children
         }
       </div>
+      <FaBars size={35} color="#fff" display="none" />
       </div>
     </header>
   );

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+
+
 import styles from './style.module.css';
 
 import NavBar from '../../components/NavBar';
@@ -12,6 +14,7 @@ import WhoYouFollow from '../../components/WhoYouFollow';
 import { Link, useHistory } from 'react-router-dom';
 import {useAuth} from '../../Context/AuthContext';
 import api from '../../services/api';
+import {FaSignOutAlt, FaStoreAlt, FaPlusCircle, FaUserPlus, FaTimes} from 'react-icons/fa'
 
 export default function Home() {
   const { signOut, user  } = useAuth();
@@ -51,20 +54,40 @@ export default function Home() {
     <div id={styles.pagePostList} className="container">
       <NavBar>
         <Link to="/composePost">
-          <img src={makePost} alt="Criar um Post"/>
+          <FaPlusCircle color="#fff" size={35} />
         </Link>
         <Link to="/establishments">
-          <img src={establishment} alt="Procurar estabelecimentos"/>
+          <FaStoreAlt color="#fff" size={35} />
         </Link>
         <Link to="/" onClick={()=>{handleSignOut()}} >
-          <img src={offIcon} alt="Sair" />
+          <FaSignOutAlt color="#fff" size={35} />
         </Link>
-          <img src={user?.profilePic} alt="Sair" className={styles.profilePic} onClick={()=>{
+        <Link to="/home" onClick={()=>{
+          document.getElementById('closeUsersWindow')!.style.display = 'none';
+          document.getElementById('showUsers')!.style.display = 'unset';
+          document.getElementById('mainPosts')!.style.display = 'unset';
+          document.getElementById('whoYouFollow')!.style.display = 'none';
+          document.getElementById('whoToFollow')!.style.display = 'none';
+        }} >
+          <FaTimes color="#fff" style={{display: 'none'}} id="closeUsersWindow" size={35} />
+          </Link>
+        <Link to="#users" className={styles.showUsers} id="showUsers" onClick={()=>{
+          document.getElementById('mainPosts')!.style.display = 'none';
+          document.getElementById('showUsers')!.style.display = 'none';
+          document.getElementById('closeUsersWindow')!.style.display = 'unset';
+          document.getElementById('whoYouFollow')!.style.display = 'flex';
+          document.getElementById('whoToFollow')!.style.display = 'flex';
+        }} >
+          <FaUserPlus color="#fff" size={35} onClick={()=>{
+            
+          }} />
+        </Link>
+          <img src={user?.profilePic} alt="Profile" className={styles.profilePic} onClick={()=>{
             history.push(`/profile/${user?.id}`);
           }} />
       </NavBar>
       <div className={styles.mainBody}>
-      <main>
+      <main id="mainPosts">
       {
         posts?.map((post)=>{
           if(post.Owner.type === "Física"){
@@ -103,7 +126,7 @@ export default function Home() {
       }
       </main>
 
-      <div className={styles.sideBar}>
+      <div className={styles.sideBar} id="whoToFollow">
       {
         notFollowingUsers?.map((notFollowingUser)=>{
           return <WhoToFollow
@@ -119,7 +142,7 @@ export default function Home() {
 
       </div>
 
-      <div className={styles.sideBarRight}>
+      <div className={styles.sideBarRight} id="whoYouFollow" >
       {
         followingUsers?.map((following)=>{
           return <WhoYouFollow
