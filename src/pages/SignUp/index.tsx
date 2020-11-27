@@ -77,6 +77,9 @@ export default function SignUp() {
 
   function handleCreateUser(e: FormEvent){
     e.preventDefault();
+    if(!profilePic && !coverPic){
+      alert('Os campos com imagem são obrigatórios!');
+    }
     api.post('user', {
       nome: name,
       nascimento: birth,
@@ -95,7 +98,7 @@ export default function SignUp() {
       history.push('/');
 
     }).catch((err)=>{
-      console.log(err);
+      alert("Erro ao cadastrar");
     })
   }
 
@@ -194,7 +197,6 @@ export default function SignUp() {
           name="profile-image" 
           label="Foto de Perfil"
           value=""
-          required
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);
@@ -206,7 +208,6 @@ export default function SignUp() {
           name="cover-image" 
           label="Foto de Capa"
           value=""
-          required
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);

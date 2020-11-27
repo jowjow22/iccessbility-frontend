@@ -107,7 +107,9 @@ export default function CreateEstablishment() {
 
   async function handleCreateEstablishment(e: FormEvent){
     e.preventDefault();
-
+    if(!image){
+      alert('Os campos com imagem são obrigatórios!');
+    }
     await api.post('establishment',{
       name,
       city,
@@ -185,7 +187,6 @@ export default function CreateEstablishment() {
           name="profile-image" 
           label="Foto do estabelecimento"
           value=""
-          required
           onChange={async (e)=>{ 
             const file = e.target.files![0];
             const base64: any = await convertBase64(file);

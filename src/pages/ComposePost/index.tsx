@@ -56,6 +56,9 @@ export default function ComposePost() {
 
   function handleCreateUser(e: FormEvent){
     e.preventDefault();
+    if(!postPic){
+      alert('Os campos com imagem são obrigatórios!');
+    }
     if(discount != ''){
       api.post('post', {
         name,
@@ -129,7 +132,6 @@ export default function ComposePost() {
             const base64: any = await convertBase64(file);
             setPostPic(base64);
           }}
-          required
           />
 
           <Select 
